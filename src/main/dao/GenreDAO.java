@@ -32,6 +32,7 @@ public class GenreDAO {
                     list.add(genre);
                 }
             }
+            connection.close();
         }
         catch (SQLException e)
         {
@@ -42,8 +43,7 @@ public class GenreDAO {
         }
     }
 
-    public static Genre get(int id)
-    {
+    public static Genre get(int id) {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
         Genre genre = null;
@@ -60,6 +60,7 @@ public class GenreDAO {
                 genre.setDescription(rs.getString(3));
                 genre.setType(rs.getString(4));
             }
+            connection.close();
         }
         catch (SQLException e)
         {
@@ -70,7 +71,7 @@ public class GenreDAO {
         }
     }
 
-    public static void update(Genre genre)
+    public static boolean update(Genre genre)
     {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
@@ -82,16 +83,19 @@ public class GenreDAO {
             preparedStatement.setString(3, genre.getType());
             preparedStatement.setInt(4, genre.getId());
             preparedStatement.executeUpdate();
+            connection.close();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
     }
 
-    public static void add(Genre genre)
+    public static boolean add(Genre genre)
     {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
@@ -102,16 +106,19 @@ public class GenreDAO {
             preparedStatement.setString(2, genre.getDescription());
             preparedStatement.setString(3, genre.getType());
             preparedStatement.executeUpdate();
+            connection.close();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
     }
 
-    public static void delete(int id)
+    public static boolean delete(int id)
     {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
@@ -120,10 +127,13 @@ public class GenreDAO {
                     "DELETE FROM genre where id = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            connection.close();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
