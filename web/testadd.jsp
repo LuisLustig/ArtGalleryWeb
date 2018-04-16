@@ -16,7 +16,7 @@
 <body>
 <jsp:useBean id="simpleBean" class="main.controller.ArtistController"/>
 <!-- <%= simpleBean.getAll().get(0).getName()%> -->
-Начальное значение свойства: <I>
+Начальное значение свойства:
     <div>
         <table>
     <c:forEach var="artist" items="${simpleBean.getAll()}">

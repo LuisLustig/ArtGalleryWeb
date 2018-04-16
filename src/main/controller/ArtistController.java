@@ -15,13 +15,8 @@ import java.util.Locale;
  */
 public class ArtistController {
 
-    public ArtistController()
-    {
-    }
-
-    public List<Artist> getAll() {
-        ArtistDAO dao = new ArtistDAO();
-        List<Artist> strings = dao.getAll();
+    public static List<Artist> getAll() {
+        List<Artist> strings = ArtistDAO.getAll();
         try {
             Config.getConnection().close();
         } catch (SQLException e) {
@@ -30,8 +25,7 @@ public class ArtistController {
         return strings;
     }
 
-    public void add(String name, String bio, String country, Date bdate, Date ddate){
-        ArtistDAO dao = new ArtistDAO();
+    public static void add(String name, String bio, String country, Date bdate, Date ddate){
         ArtistDAO.add(new Artist(name, bio, country, bdate, ddate));
         try {
             Config.getConnection().close();
@@ -40,8 +34,7 @@ public class ArtistController {
         }
     }
 
-    public void add(Artist artist){
-        ArtistDAO dao = new ArtistDAO();
+    public static void add(Artist artist){
         ArtistDAO.add(artist);
         try {
             Config.getConnection().close();
