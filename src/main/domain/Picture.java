@@ -10,6 +10,7 @@ public class Picture {
     private String photo;
     private String technique;
     private int genre_id;
+    private int artist_id;
 
     public Picture() {
     }
@@ -60,5 +61,13 @@ public class Picture {
 
     public void setGenre_id(int genre_id) {
         this.genre_id = genre_id;
+    }
+
+    public int getArtist_id() {
+        return artist_id;
+    }
+
+    public void setArtist_id(int artist_id) {
+        this.artist_id = artist_id;
     }
 }

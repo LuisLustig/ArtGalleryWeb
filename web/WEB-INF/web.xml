@@ -5,6 +5,6 @@
          version="3.1">
     <display-name>ArtGallery</display-name>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>gallery.jsp</welcome-file>
     </welcome-file-list>
 </web-app>

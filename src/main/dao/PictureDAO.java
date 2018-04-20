@@ -33,6 +33,7 @@ public class PictureDAO {
                     picture.setPhoto(rs.getString(4));
                     picture.setTechnique(rs.getString(5));
                     picture.setGenre_id(rs.getInt(6));
+                    picture.setArtist_id(rs.getInt(7));
                     list.add(picture);
                 }
             }
@@ -65,6 +66,7 @@ public class PictureDAO {
                 picture.setPhoto(rs.getString(4));
                 picture.setTechnique(rs.getString(5));
                 picture.setGenre_id(rs.getInt(6));
+                picture.setArtist_id(rs.getInt(7));
             }
         }
         catch (SQLException e)
@@ -76,30 +78,33 @@ public class PictureDAO {
         }
     }
 
-    public static void update(Picture picture)
+    public static boolean update(Picture picture)
     {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
         try {
             preparedStatement = connection.prepareStatement(
-                    "UPDATE picture SET name = ?, description = ?, photo = ?, technique = ?, genre_id = ? WHERE id = ?");
+                    "UPDATE picture SET name = ?, description = ?, photo = ?, technique = ?, genre_id = ?, artist_id=? WHERE id = ?");
             preparedStatement.setString(1, picture.getName());
             preparedStatement.setString(2, picture.getDescription());
             preparedStatement.setString(3, picture.getPhoto());
             preparedStatement.setString(4, picture.getTechnique());
             preparedStatement.setInt(5, picture.getGenre_id());
-            preparedStatement.setInt(6, picture.getId());
+            preparedStatement.setInt(6,picture.getArtist_id());
+            preparedStatement.setInt(7, picture.getId());
             preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
     }
 
-    public static void add(Picture picture)
+    public static boolean add(Picture picture)
     {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
@@ -112,16 +117,18 @@ public class PictureDAO {
             preparedStatement.setString(4, picture.getTechnique());
             preparedStatement.setInt(5, picture.getGenre_id());
             preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
     }
 
-    public static void delete(int id)
+    public static boolean delete(int id)
     {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
@@ -130,12 +137,46 @@ public class PictureDAO {
                     "DELETE FROM picture where id = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            return true;
+        }
+        catch (SQLException e)
+        {
+            e.printStackTrace();
+            return false;
+        }
+        finally {
+        }
+    }
+
+    public static List<String[]> forShow()
+    {
+        Connection connection = Config.getConnection();
+        List<String[]> list = new LinkedList<String[]>();
+        PreparedStatement preparedStatement = null;
+        try {
+            preparedStatement = connection.prepareStatement(
+                    "select p.name, p.photo, g.name, a.name from picture p join artist a on p.artist_id=a.id join genre g on p.genre_id=g.id;");
+
+            try (ResultSet rs = preparedStatement.executeQuery()) {
+                while (rs.next()) {
+                    list.add(
+                           new String[]{
+                                   rs.getString(1),
+                                   rs.getString(2),
+                                   rs.getString(3),
+                                   rs.getString(4),
+                    }
+                    );
+                }
+            }
+            return  list;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
         }
         finally {
+            return list;
         }
     }
 }

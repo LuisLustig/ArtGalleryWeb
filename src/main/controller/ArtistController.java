@@ -15,31 +15,36 @@ import java.util.Locale;
  */
 public class ArtistController {
 
-    public static List<Artist> getAll() {
-        List<Artist> strings = ArtistDAO.getAll();
-        try {
-            Config.getConnection().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return strings;
+    public static List<Artist> getAll()
+    {
+        List<Artist> list = ArtistDAO.getAll();
+        return  list;
     }
 
-    public static void add(String name, String bio, String country, Date bdate, Date ddate){
-        ArtistDAO.add(new Artist(name, bio, country, bdate, ddate));
-        try {
-            Config.getConnection().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public static boolean add(String name, String country, String bio, Date bdate, Date ddate)
+    {
+        Artist artist = new Artist();
+        artist.setName(name);
+        artist.setCountry(country);
+        artist.setBio(bio);
+        artist.setBirth_date(bdate);
+        artist.setDeath_date(ddate);
+        return ArtistDAO.add(artist);
     }
 
-    public static void add(Artist artist){
-        ArtistDAO.add(artist);
-        try {
-            Config.getConnection().close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+    public static boolean update(int id, String name, String country, String bio, Date bdate, Date ddate)
+    {
+        Artist artist = new Artist();
+        artist.setId(id);
+        artist.setName(name);
+        artist.setCountry(country);
+        artist.setBio(bio);
+        artist.setBirth_date(bdate);
+        artist.setDeath_date(ddate);
+        return ArtistDAO.update(artist);
+    }
+    public static boolean delete(int id)
+    {
+        return ArtistDAO.delete(id);
     }
 }

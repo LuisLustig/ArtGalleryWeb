@@ -73,7 +73,7 @@ public class ArtistDAO {
 
 
 
-    public static void update(Artist artist)  {
+    public static boolean update(Artist artist)  {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -86,16 +86,18 @@ public class ArtistDAO {
             preparedStatement.setDate(5, artist.getDeath_date());
             preparedStatement.setInt(6,artist.getId());
             preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
     }
 
-    public static void add(Artist artist)  {
+    public static boolean add(Artist artist)  {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -107,16 +109,18 @@ public class ArtistDAO {
             preparedStatement.setDate(4, artist.getBirth_date());
             preparedStatement.setDate(5, artist.getDeath_date());
             preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
     }
 
-    public static void delete(int id)  {
+    public static boolean delete(int id)  {
         Connection connection = Config.getConnection();
         PreparedStatement preparedStatement = null;
         try {
@@ -124,10 +128,12 @@ public class ArtistDAO {
                     "DELETE FROM artist where id = ?");
             preparedStatement.setInt(1, id);
             preparedStatement.executeUpdate();
+            return true;
         }
         catch (SQLException e)
         {
             e.printStackTrace();
+            return false;
         }
         finally {
         }
